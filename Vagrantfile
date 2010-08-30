@@ -4,7 +4,10 @@ def shared_config(config, name, ip_addr)
   config.vm.box = "lucid32"
   config.vm.network(ip_addr)
   config.vm.share_folder("v-root", "/vagrant", ".", :nfs => true)
-  config.chef.cookbooks_path = "cookbooks/#{name}"
+  config.chef.cookbooks_path = [
+    File.join(File.dirname(__FILE__), "chef/#{name}"),
+    File.join(File.dirname(__FILE__), "chef/opscode")
+  ]
   config.chef.add_role name
   config.chef.run_list.clear
 end
